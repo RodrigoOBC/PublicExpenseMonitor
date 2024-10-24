@@ -14,7 +14,7 @@ class Institution(Base):
     
     ID = Column(Integer, primary_key=True, index=True)
     Name = Column(String)
-    CNPJ = Column(String)
+    CNPJ = Column(String, unique=True, nullable=False)
     State_id = Column(Integer, ForeignKey(State.ID))
 
     

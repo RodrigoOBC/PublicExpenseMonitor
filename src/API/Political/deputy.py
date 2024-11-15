@@ -35,3 +35,11 @@ class Deputy:
             return response.json()
         else:
             response.raise_for_status()
+
+    def get_id_deputy(self, response):
+        ids = []
+        data = response.json()["dados"]
+        for deputy in data:
+            ids.append([deputy["id"], deputy["nome"]])
+        
+        return ids

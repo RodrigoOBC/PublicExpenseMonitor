@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from src.API.Political.deputy import Deputy
+import requests as req
 
 app = FastAPI()
 
@@ -21,3 +22,8 @@ def get_deputy_by_UF(UF: str):
 def get_deputy_by_name(name: str):
     deputy = Deputy(name=name)
     return deputy.get_deputy_by_name()
+
+@app.get("/expenditures")
+def get_deputy_expenditure():
+    responses = get_all_deputy()
+    return responses

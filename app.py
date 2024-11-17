@@ -6,9 +6,10 @@ import json
 
 app = FastAPI()
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
+@app.get("/healf")
+def check_healf():
+    deputy_status = Deputy().check_healf()
+    return [deputy_status]
 
 @app.get("/deputy")
 def get_all_deputy():
@@ -34,6 +35,12 @@ def get_deputy_expenditure():
 def get_deputy_expenditure_by_UF(UF: str):
     responses = get_deputy_by_UF(UF)
     return responses
+
+@app.get("/expenditures/deputyID={id}")
+def get_deputy_expenditure_by_UF(deputyID: str):
+    expenditures = Expenditures(deputyID)
+    response_expenditures = expenditures.get_deputy_expenditure()
+    return response_expenditures
 
 @app.get("/expenditures/name={name}")
 def get_deputy_expenditure_by_name(name: str):

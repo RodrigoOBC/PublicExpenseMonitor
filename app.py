@@ -34,7 +34,12 @@ def get_deputy_expenditure():
 @app.get("/expenditures/UF={UF}")
 def get_deputy_expenditure_by_UF(UF: str):
     responses = get_deputy_by_UF(UF)
-    return responses
+    expendituresDeputy = []
+    for response in responses["dados"]:
+        expenditures = Expenditures(response["id"])
+        response_expenditures = expenditures.get_deputy_expenditure()
+        expendituresDeputy.append(response_expenditures)
+    return expendituresDeputy
 
 @app.get("/expenditures/deputyID={id}")
 def get_deputy_expenditure_by_UF(deputyID: str):

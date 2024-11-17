@@ -11,6 +11,13 @@ class Deputy:
             "content-type": "application/json",
         }
         self.url_base = "https://dadosabertos.camara.leg.br/api/v2/deputados"
+    
+    def check_healf(self):
+        response  = req.get(self.url_base, headers=self.headers)
+        if response.status_code == 200:
+            return {"HealfStatusDeputy": "ok"}
+        else:
+            response.raise_for_status()
 
     def get_all_deputy(self):
         url = f"{self.url_base}?itens=250&ordem=ASC&ordenarPor=nome"

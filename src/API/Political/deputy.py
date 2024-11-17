@@ -37,9 +37,9 @@ class Deputy:
             response.raise_for_status()
 
     def get_id_deputy(self, response):
-        ids = []
-        data = response.json()["dados"]
+        deputy_id_name = []
+        data = response["dados"]
         for deputy in data:
-            ids.append([deputy["id"], deputy["nome"]])
+            deputy_id_name.append({"id": deputy["id"], "name": deputy["nome"]})
         
-        return ids
+        return deputy_id_name

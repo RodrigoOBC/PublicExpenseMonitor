@@ -14,45 +14,50 @@ def check_healf():
 @app.get("/deputy")
 def get_all_deputy():
     deputy = Deputy()
-    return deputy.get_all_deputy()
+    return {"data" : deputy.get_all_deputy()}
 
 @app.get("/deputy/UF={UF}")
 def get_deputy_by_UF(UF: str):
     deputy = Deputy(UF=UF)
-    return deputy.get_deputy_by_UF()
+    return {"data" : deputy.get_deputy_by_UF()}
 
 @app.get("/deputy/name={name}")
 def get_deputy_by_name(name: str):
     deputy = Deputy(name=name)
-    return deputy.get_deputy_by_name()
+    return {"data" : deputy.get_deputy_by_name()}
 
 @app.get("/expenditures")
 def get_deputy_expenditure():
     responses = get_all_deputy()
-    return responses
+    expendituresDeputy = []
+    for response in responses["data"]["dados"]:
+        expenditures = Expenditures(response["id"])
+        response_expenditures = expenditures.get_deputy_expenditure()
+        expendituresDeputy.append(response_expenditures)
+    return {"data" : expendituresDeputy}
 
 @app.get("/expenditures/UF={UF}")
 def get_deputy_expenditure_by_UF(UF: str):
     responses = get_deputy_by_UF(UF)
     expendituresDeputy = []
-    for response in responses["dados"]:
+    for response in responses["data"]["dados"]:
         expenditures = Expenditures(response["id"])
         response_expenditures = expenditures.get_deputy_expenditure()
         expendituresDeputy.append(response_expenditures)
-    return expendituresDeputy
+    return {"data" : expendituresDeputy}
 
 @app.get("/expenditures/deputyID={id}")
 def get_deputy_expenditure_by_UF(deputyID: str):
     expenditures = Expenditures(deputyID)
     response_expenditures = expenditures.get_deputy_expenditure()
-    return response_expenditures
+    return {"data" : response_expenditures}
 
 @app.get("/expenditures/name={name}")
 def get_deputy_expenditure_by_name(name: str):
     responses = get_deputy_by_name(name)
     deputy = Deputy()
-    ids = deputy.get_id_deputy(responses)
+    ids = deputy.get_id_deputy(responses["data"])
     expenditures = Expenditures(ids[0]["id"])
     response_expenditures = expenditures.get_deputy_expenditure()
 
-    return response_expenditures
+    return {"data" : response_expenditures}
